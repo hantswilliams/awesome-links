@@ -37,7 +37,7 @@ function Home() {
   if (!user) {
     return (
       <div className="flex items-center justify-center">
-        To view the awesome links you need to{' '}
+        To use Social Comprehend you need to{' '}
         <Link href="/api/auth/login" className=" block bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
           Login
         </Link>

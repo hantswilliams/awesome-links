@@ -15,6 +15,17 @@ const Role = builder.enumType('Role', {
   values: ['USER', 'ADMIN'] as const,
 })
 
+
+builder.queryField('users', (t) =>
+  t.prismaConnection({
+    type: 'User',
+    cursor: 'id',
+    resolve: (query, _parent, _args, _ctx, _info) =>
+      prisma.user.findMany({ ...query })
+  })
+)
+
+
 builder.queryField('favorites', (t) =>
   t.prismaField({
     type: 'User',
@@ -36,3 +47,4 @@ builder.queryField('favorites', (t) =>
     }
   })
 )
+

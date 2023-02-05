@@ -19,6 +19,7 @@ model User {
   image     String?
   role      Role     @default(USER)
   bookmarks Link[]
+  media     Media[]
 }
 
 enum Role {
@@ -35,5 +36,14 @@ model Link {
   url         String
   imageUrl    String
   category    String
+  users       User[]
+}
+
+
+model Media {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  imageUrls   String[]
   users       User[]
 }
