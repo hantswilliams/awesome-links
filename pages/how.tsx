@@ -6,7 +6,7 @@ const How = () => {
             <section className="py-10 bg-gray-100 sm:py-16 lg:py-24">
                 <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="max-w-2xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Is it appropriate? Find out...</h2>
+                        <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">Should you post it? Is it appropriate? Find out...</h2>
                         <p className="max-w-lg mx-auto mt-4 text-base leading-relaxed text-gray-600"></p>
                     </div>
 
@@ -46,9 +46,9 @@ const How = () => {
                             <div className="ml-6">
                                 <h3 className="text-lg font-semibold text-black">Interpreting your results</h3>
                                 <p className="mt-4 text-base text-gray-600"> 
-                                    <a className="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-green-200 text-green-700 rounded-full"> Green </a> means your good to go and can share your image on social media. 
-                                    While <a className="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-yellow-200 text-yellow-700 rounded-full"> yellow </a> or 
-                                    <a className="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-red-200 text-red-700 rounded-full"> red </a> means you should further review the image. A low number (below 20) means it is a likely safe for sharing on social media and is marked as green. While a yellow (between 20 and 29) or red (30+) should be further reviewed by you</p>
+                                    <a className="text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-green-200 text-green-700 rounded-full"> Green (score 0-19) </a> means your good to go, and can share your image on social media, or share it professionally. 
+                                    While <a className="ml-1 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-yellow-200 text-yellow-700 rounded-full"> yellow (score 20-29) </a> or 
+                                    <a className=" ml-1 text-xs inline-flex items-center font-bold leading-sm uppercase px-3 py-1 bg-red-200 text-red-700 rounded-full"> red (score 30-100) </a> means you should further review the image before your post it, something has been flagged that may be viewed as inappropriate, or not professional</p>
                             </div>
                         </li>
                     </ul>
