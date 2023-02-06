@@ -1,74 +1,33 @@
-// /pages/index.tsx
+import React from 'react';
 
-// for the grid layout, check this out: https://refine.dev/blog/tailwind-grid/
+interface Props {
+  id: number;
+  imageName: string;
+  imageTimeStamp: string;
+  imageUrl: string;
+  totalScore: number;
+  subscoreNudity: number;
+  subscoreRacy: number;
+  subscoreDrugs: number;
+}
 
-import Head from "next/head";
-import { gql, useQuery, useMutation } from "@apollo/client";
-import { AwesomeLink } from "../components/AwesomeLink";
-import type { Link as Node } from "@prisma/client";
-import Link from "next/link";
-import { useUser } from "@auth0/nextjs-auth0/client";
-
-const AllLinksQuery = gql`
-  query allLinksQuery($first: Int, $after: ID) {
-    links(first: $first, after: $after) {
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      edges {
-        cursor
-        node {
-          imageUrl
-          url
-          title
-          category
-          description
-          id
-        }
-      }
-    }
-  }
-`;
-
-function Home() {
-  const { user } = useUser()
-  const { data, loading, error, fetchMore } = useQuery(AllLinksQuery, {
-    variables: { first: 3 },
-  });
-
-  if (!user) {
-    return (
-      <div className="flex items-center justify-center">
-        To use Social Comprehend you need to{' '}
-        <Link href="/api/auth/login" className=" block bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-          Login
-        </Link>
-      </div>
-    );
-  }
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Oh no... {error.message}</p>;
-
-  const { endCursor, hasNextPage } = data?.links.pageInfo;
-
-
-  var imageLink = "https://prisma-blog-ebon.vercel.app/blog/posts/fullstack-nextjs-graphql-prisma-4/aws-management-console.png"
-  var fakeExplicitNudityScore = 33;
-  var fakeRacyContent = 22;
-  var drugContent = 15;
-  var totalScore = 70.3;
-
+export const AwesomeAnalysis: React.FC<Props> = ({
+  id,
+  imageName,
+  imageTimeStamp,
+  imageUrl,
+  totalScore,
+  subscoreNudity,
+  subscoreDrugs,
+  subscoreRacy,
+}) => {
   return (
-    <div>
-        <Head>
-        <title>Temp Preview</title>
-        <link rel="icon" href="/favicon.ico" />
-        </Head>
 
 
-        
+    <div className="container mx-auto max-w-md py-1">
+      
+    <div key={id} className="shadow max-w-md rounded">
+
         {/* this is the top level div for the card element */}
         <div className="max-w-md mt-1 mb-3 mx-auto rounded-lg overflow-hidden shadow-xl bg-white">
 
@@ -104,13 +63,19 @@ function Home() {
             </div>
 
             {/* this first part is for the image and its border color */}
-            <img src={imageLink} className={`${
+            <img src={imageUrl} className={`${
                 totalScore >= 50
                 ? 'w-full border-solid border-4 border-red-500'
                 : totalScore >= 30 && totalScore <= 49
                 ? 'w-full border-solid border-4 border-yellow-500'
                 : 'w-full border-solid border-4 border-green-500'
             }`} alt="Image" />
+
+            {/* add in the imageName as small text directly under the image */}
+            <div className="px-6 py-4">
+                <div className="font-bold text-xl mb-2"> {imageName} </div>
+                <div className="text-gray-700 text-base"> {imageTimeStamp} </div>
+            </div>
 
             {/* this is the div section that contains the result details */}
             <div className="px-6 py-4">
@@ -133,14 +98,14 @@ function Home() {
                 <div className="flex justify-between items-center mb-2">
                     {/* only show the below span is total score <= 30 */}
                     {totalScore <= 29 ? (
-                    <span className="text-gray-700"> 👍 Good to go </span>
+                    <span className="text-gray-700"> ✅ Good to go </span>
                     ) : (
                     <span className="text-gray-700">  </span>
                     )}
 
                     {/* only show the below span is total score >= 30 */}
                     {totalScore >= 30 ? (
-                    <span className="text-gray-700"> Should review 🤔 </span>
+                    <span className="text-gray-700"> Should review ⛔ </span>
                     ) : (
                     <span className="text-gray-700">  </span>
                     )}
@@ -151,46 +116,46 @@ function Home() {
 
                 {/* div tag for the explicit nudity */}
                 <div className="flex flex-col mb-2">
-                    <span className="text-gray-700 text-sm">Explicit Nudity: {fakeExplicitNudityScore}%</span>
+                    <span className="text-gray-700 text-sm">Explicit Nudity: {subscoreNudity}%</span>
                     <div className="flex items-center">
-                    {fakeExplicitNudityScore >= 30 ? (
+                    {subscoreNudity >= 30 ? (
                         <span className="rounded-full h-4 w-4 bg-red-500"></span>
-                    ) : fakeExplicitNudityScore >= 20 && fakeExplicitNudityScore <= 29 ? (
+                    ) : subscoreNudity >= 20 && subscoreNudity <= 29 ? (
                         <span className="rounded-full h-4 w-4 bg-yellow-500"></span>
                     ) : (
                         <span className="rounded-full h-4 w-4 bg-green-500"></span>
                     )}
-                    <span className="ml-2 text-gray-700">{fakeExplicitNudityScore >= 30 ? 'Very Likely' : fakeExplicitNudityScore >= 20 && fakeExplicitNudityScore <= 29 ? 'Likely' : 'Not Likely'}</span>
+                    <span className="ml-2 text-gray-700">{subscoreNudity >= 30 ? 'Very Likely' : subscoreNudity >= 20 && subscoreNudity <= 29 ? 'Likely' : 'Not Likely'}</span>
                     </div>
                 </div>
 
                 {/* div tag for the violent or repulsive content */}
                 <div className="flex flex-col mb-2">
-                    <span className="text-gray-700 text-sm">Racy Content: {fakeRacyContent}%</span>
+                    <span className="text-gray-700 text-sm">Racy Content: {subscoreRacy}%</span>
                     <div className="flex items-center">
-                    {fakeRacyContent >= 30 ? (
+                    {subscoreRacy >= 30 ? (
                         <span className="rounded-full h-4 w-4 bg-red-500"></span>
-                    ) : fakeRacyContent >= 20 && fakeRacyContent <= 29 ? (
+                    ) : subscoreRacy >= 20 && subscoreRacy <= 29 ? (
                         <span className="rounded-full h-4 w-4 bg-yellow-500"></span>
                     ) : (
                         <span className="rounded-full h-4 w-4 bg-green-500"></span>
                     )}
-                    <span className="ml-2 text-gray-700">{fakeRacyContent >= 30 ? 'Very Likely' : fakeRacyContent >= 20 && fakeRacyContent <= 29 ? 'Likely' : 'Not Likely'}</span>
+                    <span className="ml-2 text-gray-700">{subscoreRacy >= 30 ? 'Very Likely' : subscoreRacy >= 20 && subscoreRacy <= 29 ? 'Likely' : 'Not Likely'}</span>
                     </div>
                 </div>
 
                 {/* div tag for drug content */}
                 <div className="flex flex-col mb-2">
-                    <span className="text-gray-700 text-sm">Drug Content: {drugContent}%</span>
+                    <span className="text-gray-700 text-sm">Drug Content: {subscoreDrugs}%</span>
                     <div className="flex items-center">
-                    {drugContent >= 30 ? (
+                    {subscoreDrugs >= 30 ? (
                         <span className="rounded-full h-4 w-4 bg-red-500"></span>
-                    ) : drugContent >= 20 && drugContent <= 29 ? (
+                    ) : subscoreDrugs >= 20 && subscoreDrugs <= 29 ? (
                         <span className="rounded-full h-4 w-4 bg-yellow-500"></span>
                     ) : (
                         <span className="rounded-full h-4 w-4 bg-green-500"></span>
                     )}
-                    <span className="ml-2 text-gray-700">{drugContent >= 30 ? 'Very Likely' : drugContent >= 20 && drugContent <= 29 ? 'Like' : 'Not Likely'}</span>
+                    <span className="ml-2 text-gray-700">{subscoreDrugs >= 30 ? 'Very Likely' : subscoreDrugs >= 20 && subscoreDrugs <= 29 ? 'Like' : 'Not Likely'}</span>
                     </div>
                 </div>
 
@@ -243,9 +208,6 @@ function Home() {
       </div>
 
 
-
-
+    </div>
   );
-}
-
-export default Home;
+};

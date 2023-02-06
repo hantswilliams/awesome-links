@@ -1,12 +1,20 @@
 // pages/admin.tsx
-import React from 'react'
+import React, { useState} from 'react'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { gql, useMutation } from '@apollo/client'
 import toast, { Toaster } from 'react-hot-toast'
 
+
 type FormValues = {
   image: FileList;
 }
+
+type Props = {
+  onImageUploadName: (
+    name: string, 
+    timestamp: string
+    ) => void;
+};
 
 const CreateImageMutation = gql`
   mutation($imageUrlKey: String!) {
@@ -16,7 +24,7 @@ const CreateImageMutation = gql`
   }
 `
 
-const Image = () => {
+const Image = (props: Props) => {
   const [createImage, { data, loading, error }] = useMutation(CreateImageMutation)
   const {
     register,
@@ -58,10 +66,13 @@ const Image = () => {
     const { image } = data
     const imageUrlKey = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${image[0].name}`
     const variables = { imageUrlKey }
+    const imageNameS3 = image[0].name
+    const timestamp = new Date().toISOString();
+    props.onImageUploadName(imageNameS3, timestamp)
     try {
       toast.promise(createImage({ variables }), {
-        loading: 'Creating new link..',
-        success: 'Link successfully created!🎉',
+        loading: 'Uploading for analysis..',
+        success: 'Analysis has succesfully started!🎉',
         error: `Something went wrong 😥 Please try again -  ${error}`,
       })
     } catch (error) {
@@ -70,7 +81,7 @@ const Image = () => {
   }
 
   return (
-    <div className="container mx-auto max-w-md py-12">
+    <div className="container mx-auto max-w-md py-1">
       <Toaster />
       <form className="grid grid-cols-1 gap-y-6 shadow-lg p-8 rounded-lg" onSubmit={handleSubmit(onSubmit)}>
         <h1 className="text-3xl font-medium my-5">Select a single image</h1>
@@ -88,8 +99,9 @@ const Image = () => {
         <button
           disabled={loading}
           type="submit"
-          className="my-4 capitalize bg-blue-500 text-white font-medium py-2 px-4 rounded-md hover:bg-blue-600"
+          className={`my-4 capitalize bg-purple-600 text-white font-medium py-2 px-4 rounded-md hover:bg-purple-900 animate-pulse`}
         >
+
           {loading ? (
             <span className="flex items-center justify-center">
               <svg
@@ -103,7 +115,7 @@ const Image = () => {
               Creating...
             </span>
           ) : (
-            <span>Analyze Image</span>
+            <span>Analyze</span>
           )}
         </button>
       </form>

@@ -16,7 +16,7 @@ const Header = () => {
           {user && (
 
             <div className="flex items-center space-x-5">
-              <div className="flex items-center justify-center capitalize bg-blue-500 py-1 px-3 rounded-md text-white">
+              {/* <div className="flex items-center justify-center capitalize bg-blue-500 py-1 px-3 rounded-md text-white">
                 <Link href="/admin">
                   + Create
                 </Link>
@@ -25,23 +25,26 @@ const Header = () => {
                 <Link href="/favorites">
                   Favorites
                 </Link>
-              </div>
+              </div> */}
+              <div className="flex items-center space-x-5">
+              <Link href="/api/auth/logout" >
+                Logout
+              </Link>
+              <img alt="profile" className="rounded-full w-12 h-12" src={user.picture ? user.picture : ''} />
+            </div>
             </div>
 
           )}
 
           {user ? (
-            <div className="flex items-center space-x-5">
-              <Link href="/api/auth/logout" className="ml-5 inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
-                Logout
-              </Link>
-              <img alt="profile" className="rounded-full w-12 h-12" src={user.picture ? user.picture : ''} />
+            <div>
             </div>
           ) : (
             <Link href="/api/auth/login" className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
               Login
             </Link>
           )}
+
         </nav>
       </div>
     </header>

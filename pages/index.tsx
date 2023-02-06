@@ -50,12 +50,6 @@ function Home() {
 
   const { endCursor, hasNextPage } = data?.links.pageInfo;
 
-
-  var imageLink = "https://prisma-blog-ebon.vercel.app/blog/posts/fullstack-nextjs-graphql-prisma-4/aws-management-console.png"
-  var fakeExplicitNudityScore = 12;
-  var fakeRacyContent = 18;
-  var totalScore = 50;
-
   return (
     <div>
       <Head>
